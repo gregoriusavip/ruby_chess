@@ -10,11 +10,13 @@ require_relative('../pieces/bishop')
 
 # A standard chessboard
 class Chessboard
-  include Output
-
   def initialize
     @chessboard = Array.new(8) { Array.new(8) }
     fill_board
+  end
+
+  def print
+    Output.print_chessboard(@chessboard)
   end
 
   private
@@ -42,5 +44,3 @@ class Chessboard
     black_pieces.each_with_index { |piece, index| @chessboard[0][index] = piece }
   end
 end
-
-Chessboard.new.print_chessboard
