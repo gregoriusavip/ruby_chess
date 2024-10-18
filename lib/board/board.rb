@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 require_relative('board_output')
+require_relative('../pieces/pawn')
+require_relative('../pieces/rook')
+require_relative('../pieces/knight')
+require_relative('../pieces/queen')
+require_relative('../pieces/king')
+require_relative('../pieces/bishop')
 
 # A standard chessboard
 class Board
@@ -14,39 +20,25 @@ class Board
   private
 
   def fill_board
-    fill_black_pawns
-    fill_white_pawns
+    fill_pawns
     fill_white_pieces
     fill_black_pieces
   end
 
-  def fill_white_pawns
-    8.times { |i| @chessboard[6][i] = '♙' }
-  end
-
-  def fill_black_pawns
-    8.times { |i| @chessboard[1][i] = '♟' }
+  def fill_pawns
+    8.times { |i| @chessboard[6][i] = Pawn.new(:white) }
+    8.times { |i| @chessboard[1][i] = Pawn.new }
   end
 
   def fill_white_pieces
-    l = 0
-    r = 7
-    ['♖', '♘', '♗', '♕', '♔'].each do |piece|
-      @chessboard[7][l] = piece
-      @chessboard[7][r] = piece if r >= 5
-      l += 1
-      r -= 1
-    end
+    white_pieces = [Rook.new(:white), Knight.new(:white), Bishop.new(:white), King.new(:white),
+                    Queen.new(:white), Bishop.new(:white), Knight.new(:white), Rook.new(:white)]
+    white_pieces.each_with_index { |piece, index| @chessboard[7][index] = piece }
   end
 
   def fill_black_pieces
-    l = 0
-    r = 7
-    ['♜', '♞', '♝', '♛', '♚'].each do |piece|
-      @chessboard[0][l] = piece
-      @chessboard[0][r] = piece if r >= 5
-      l += 1
-      r -= 1
-    end
+    black_pieces = [Rook.new, Knight.new, Bishop.new, King.new,
+                    Queen.new, Bishop.new, Knight.new, Rook.new]
+    black_pieces.each_with_index { |piece, index| @chessboard[0][index] = piece }
   end
 end

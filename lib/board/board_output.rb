@@ -6,7 +6,7 @@ module BoardOutput
     order = 1
     @chessboard.each do |ranks|
       ranks.each do |piece|
-        print("#{piece.nil? ? colored_square(order) : piece} ")
+        print("#{piece.nil? ? colored_square(order) : piece.piece} ")
         order += 1
       end
       puts
