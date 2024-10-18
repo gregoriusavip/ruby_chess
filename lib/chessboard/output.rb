@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Handles board visualization
-module BoardOutput
+# Handles chessboard terminal visualization
+module Output
   def print_chessboard
     counter = 1
     @chessboard.each_with_index do |ranks, rank_index|

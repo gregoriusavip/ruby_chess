@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative('board_output')
+require_relative('output')
 require_relative('../pieces/pawn')
 require_relative('../pieces/rook')
 require_relative('../pieces/knight')
@@ -9,8 +9,8 @@ require_relative('../pieces/king')
 require_relative('../pieces/bishop')
 
 # A standard chessboard
-class Board
-  include BoardOutput
+class Chessboard
+  include Output
 
   def initialize
     @chessboard = Array.new(8) { Array.new(8) }
@@ -42,3 +42,5 @@ class Board
     black_pieces.each_with_index { |piece, index| @chessboard[0][index] = piece }
   end
 end
+
+Chessboard.new.print_chessboard
