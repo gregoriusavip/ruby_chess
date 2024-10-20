@@ -12,7 +12,7 @@ require_relative('../pieces/bishop')
 class Chessboard
   def initialize
     @chessboard = Array.new(8) { Array.new(8) }
-    fill_board
+    set_board
   end
 
   def print
@@ -21,7 +21,7 @@ class Chessboard
 
   private
 
-  def fill_board
+  def set_board
     fill_pawns
     fill_white_pieces
     fill_black_pieces
