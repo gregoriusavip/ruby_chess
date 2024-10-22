@@ -17,7 +17,7 @@ class Chessboard
 
   def add_piece(player_side, piece, notation)
     new_piece = ChessParser.create_chess_piece(piece, player_side)
-    rank_file = ChessParser.convert_notation(notation)
+    rank_file = ChessParser.convert_notation(notation)&.shift
     return false if rank_file.nil? || new_piece.nil?
 
     @chessboard[rank_file[0]][rank_file[1]] = new_piece

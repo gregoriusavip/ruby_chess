@@ -8,7 +8,7 @@ describe Chessboard do
     subject(:empty_chessboard) { described_class.new }
 
     before do # expect this unless stated otherwise within the test context
-      allow(ChessParser).to receive_messages(create_chess_piece: :knight, convert_notation: [4, 0])
+      allow(ChessParser).to receive_messages(create_chess_piece: :knight, convert_notation: [[4, 0]])
     end
 
     context 'when create_chess_piece returns nil' do
