@@ -23,7 +23,7 @@ describe Chessboard do
 
     context 'when adding a valid knight chess piece' do
       it 'returns true' do
-        allow(ChessParser).to receive(:create_chess_piece).and_return(true)
+        allow(ChessParser).to receive(:create_chess_piece).and_return(:knight)
         valid_piece = :knight
         result = empty_chessboard.add_piece(:white, valid_piece, 'a4')
         expect(result).to be true
@@ -71,6 +71,15 @@ describe Chessboard do
         expect { empty_chessboard.add_piece(:white, :knight, 'a4') }.to change {
           empty_chessboard.chessboard[4][0]
         }.from(nil)
+      end
+    end
+
+    context 'when there is an invalid argument' do
+      it 'does not change the chessboard' do
+        allow(ChessParser).to receive(:convert_notation).and_return(nil)
+        expect { empty_chessboard.add_piece(:white, :knight, 'invalid_notation') }.not_to(
+          change(empty_chessboard, :chessboard)
+        )
       end
     end
   end
