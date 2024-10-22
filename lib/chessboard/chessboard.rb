@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative('output')
+require_relative('../parser')
 require_relative('../pieces/pawn')
 require_relative('../pieces/rook')
 require_relative('../pieces/knight')
@@ -10,13 +11,23 @@ require_relative('../pieces/bishop')
 
 # A standard chessboard
 class Chessboard
+  attr_reader :chessboard
+
   def initialize
     @chessboard = Array.new(8) { Array.new(8) }
-    set_board
   end
 
   def print
     Output.print_chessboard(@chessboard)
+  end
+
+  def add_piece(player_side, piece, notation)
+    new_piece = ChessParser.player_side?(player_side) ? ChessParser.create_chess_piece(player_side, piece) : nil
+    rank_file = ChessParser.convert_notation(notation)
+    return false if rank_file.nil? || new_piece.nil?
+
+    @chessboard[rank_file[0]][rank_file[1]] = new_piece
+    true
   end
 
   private
