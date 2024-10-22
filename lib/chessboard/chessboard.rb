@@ -22,7 +22,7 @@ class Chessboard
   end
 
   def add_piece(player_side, piece, notation)
-    new_piece = ChessParser.player_side?(player_side) ? ChessParser.create_chess_piece(player_side, piece) : nil
+    new_piece = ChessParser.create_chess_piece(piece, player_side)
     rank_file = ChessParser.convert_notation(notation)
     return false if rank_file.nil? || new_piece.nil?
 
