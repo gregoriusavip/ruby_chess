@@ -9,13 +9,15 @@ require_relative('pieces/bishop')
 
 # Utility class to parse chess notations/inputs
 class ChessParser
-  def self.create_chess_piece(piece, player_side)
-    { pawn: -> { Pawn.new }, king: -> { King.new }, queen: -> { Queen.new }, rook: -> { Rook.new },
-      knight: -> { Knight.new }, bishop: -> { Bishop.new } }[piece]
-  end
+  @pieces = { pawn: ->(color) { Pawn.new(color) }, king: ->(color) { King.new(color) },
+              queen: ->(color) { Queen.new(color) }, rook: ->(color) { Rook.new(color) },
+              knight: ->(color) { Knight.new(color) }, bishop: ->(color) { Bishop.new(color) } }
 
-  def self.player_side?(side)
-    Set[:white, :black].include? side
+  def self.create_chess_piece(piece, color)
+    return nil unless Set[:white, :black].include? color
+
+    new_piece = @pieces[piece]
+    new_piece&.call(color)
   end
 
   def self.convert_notation(notation)
