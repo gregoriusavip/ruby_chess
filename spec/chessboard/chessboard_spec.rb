@@ -36,5 +36,58 @@ describe Chessboard do
         }.from(nil)
       end
     end
+
+    context 'when adding a white piece' do
+      it 'adds the new piece to the white pieces list' do
+        expect { empty_chessboard.add_piece(:white, :knight, 'a4') }.to change {
+          empty_chessboard.white_pieces.last
+        }.to eq :knight
+      end
+    end
+
+    context 'when adding a black piece' do
+      it 'adds the new piece to the black pieces list' do
+        expect { empty_chessboard.add_piece(:black, :knight, 'a4') }.to change {
+          empty_chessboard.black_pieces.last
+        }.to eq :knight
+      end
+    end
+  end
+
+  describe '#set_board' do
+    subject(:after_set) { described_class.new }
+
+    before do
+      %i[pawn rook knight bishop king queen].each do |piece|
+        allow(ChessParser).to receive(:create_chess_piece).with(piece, :white).and_return(piece)
+        allow(ChessParser).to receive(:create_chess_piece).with(piece, :black).and_return(piece)
+      end
+      after_set.set_board
+    end
+
+    context 'when setting the pieces' do
+      pieces_order = %i[rook knight bishop king queen bishop knight rook]
+      [[0, 1], [7, 6]].each_with_index do |rows, color|
+        color = color.even? ? :black : :white
+        it "puts all 8 non-pawn #{color} pieces in the right order of row #{rows[1]}" do
+          expect(after_set.chessboard[rows[0]]).to eq(pieces_order)
+        end
+
+        it "puts all 8 #{color} pawns on the entire column of row #{rows[0]}" do
+          expect(after_set.chessboard[rows[1]].all?(:pawn)).to be true
+        end
+      end
+
+      all_pieces = %i[rook knight bishop king queen bishop knight rook]
+      8.times { all_pieces << :pawn }
+
+      it 'stores all of white pieces on a list' do
+        expect(after_set.white_pieces).to match_array(all_pieces)
+      end
+
+      it 'stores all of black pieces on a list' do
+        expect(after_set.black_pieces).to match_array(all_pieces)
+      end
+    end
   end
 end
